@@ -8,7 +8,7 @@ namespace ETrade.DataAccess.Concrete.EntityFrameworkCore
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"ConnectionString");
+            optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-DIER1P5\MSSQLSERVER02;Initial Catalog=ETrade;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
         }
 
         public DbSet<Product> Products { get; set; }

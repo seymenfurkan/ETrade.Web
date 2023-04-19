@@ -12,7 +12,7 @@ namespace ETrade.Web.Controllers
         private readonly IMapper _mapper;
         private readonly IProductService _service;
 
-        public ProductController(IProductDal productDal, IMapper mapper, IProductService service)
+        public ProductController(IMapper mapper, IProductService service)
         {
             _mapper = mapper;
             _service = service;
