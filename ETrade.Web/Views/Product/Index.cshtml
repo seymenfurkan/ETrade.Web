@@ -1,0 +1,52 @@
+﻿@using ETrade.Web.Models.ProductViewModels;
+@{
+    ViewData["Title"] = "Index";
+}
+
+@model List<ProductViewModel>
+@section Scripts{
+    <script type="text/javascript">
+        function Go() {
+            var url = "@Url.Action("Add","Product")";
+            window.location.pathname = url;
+        }
+    </script>
+}
+
+<h1>Ürünler</h1>
+<br />
+<button type="button" id="btn1" class="btn btn-success" onclick="Go()">Ürün Ekle</button>
+<br />
+<br />
+@if (@TempData["status"] is not null)
+{
+    <div class="alert alert-success" role="alert">
+       @TempData["status"]
+    </div>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>TradeMark</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>İşlem</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.TradeMark</td>
+            <td>@item.Name</td>
+            <td>@item.Price</td>
+            <td>@item.Stock</td>
+            <td><a asp-controller="Product" asp-action="Remove" asp-route-id ="@item.Id">SİL</a></td>
+            <td><a asp-controller="Product" asp-action="Update" asp-route-id ="@item.Id">Güncelle</a></td>
+        </tr>
+    }
+    </tbody>
+</table>
+

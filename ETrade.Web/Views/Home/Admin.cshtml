@@ -1,0 +1,73 @@
+﻿@{
+    ViewData["Title"] = "Admin";
+    Layout = "_ExampleLayout";
+}
+
+
+@section CssScripts {
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ETrade.Web.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            background: #f2f2f2;
+        }
+
+        .navbar .nav-item:not(:last-child) {
+            margin-right: 35px;
+        }
+
+        .dropdown-toggle::after {
+            transition: transform 0.15s linear;
+        }
+
+        .show.dropdown .dropdown-toggle::after {
+            transform: translateY(3px);
+        }
+
+        .dropdown-menu {
+            margin-top: 0;
+        }
+    </style>
+   
+}
+
+<partial name="NavbarPartialView" />
+
+
+@section JsScripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        const $dropdown = $(".dropdown");
+        const $dropdownToggle = $(".dropdown-toggle");
+        const $dropdownMenu = $(".dropdown-menu");
+        const showClass = "show";
+
+        $(window).on("load resize", function () {
+            if (this.matchMedia("(min-width: 768px)").matches) {
+                $dropdown.hover(
+                    function () {
+                        const $this = $(this);
+                        $this.addClass(showClass);
+                        $this.find($dropdownToggle).attr("aria-expanded", "true");
+                        $this.find($dropdownMenu).addClass(showClass);
+                    },
+                    function () {
+                        const $this = $(this);
+                        $this.removeClass(showClass);
+                        $this.find($dropdownToggle).attr("aria-expanded", "false");
+                        $this.find($dropdownMenu).removeClass(showClass);
+                    }
+                );
+            } else {
+                $dropdown.off("mouseenter mouseleave");
+            }
+        });
+    </script>
+}
+

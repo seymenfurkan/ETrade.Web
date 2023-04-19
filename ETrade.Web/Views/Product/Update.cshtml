@@ -1,0 +1,36 @@
+﻿@using ETrade.Entities.Concrete;
+
+
+@{
+    ViewData["Title"] = "Update";
+}
+
+@model Product
+
+<h1>Ürün Güncelle</h1>
+
+
+<form asp-controller="Product" asp-action="UpdateProduct" method="post">
+
+    <input type="hidden" asp-for="Id" />
+    <label>Ürün İsim:</label>
+    <input type="text" name="Name" asp-for="Name" />
+    <br />
+    <br />
+    <label>Ürün Marka:</label>
+    <input type="text" name="TradeMark" asp-for="TradeMark" />
+    <br />
+    <br />
+    <label>Ürün Fiyat:</label>
+    <input type="text" name="Price" asp-for="Price" />
+    <br />
+    <br />
+    <label>Ürün Stok:</label>
+    <input type="text" name="Stock" asp-for="Stock" />
+    <br />
+    <br />
+    <br />
+    <br />
+    <button type="submit">Güncelle</button>
+</form>
+
