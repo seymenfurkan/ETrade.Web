@@ -1,0 +1,28 @@
+﻿@using ETrade.Web.Models.ProductViewModels;
+
+@{
+    ViewData["Title"] = "GetDetail";
+}
+
+@model GetProductWithDetailByIdViewModel
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>TradeMark</th>
+            <th>Name</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+            <tr>
+                <td>@Model.Id</td>
+                <td>@Model.TradeMark</td>
+                <td>@Model.Name</td>
+            </tr>
+        
+    </tbody>
+</table>

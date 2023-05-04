@@ -1,4 +1,6 @@
-﻿using ETrade.Entities.Concrete;
+﻿using ETrade.Core.Entities.DTOs;
+using ETrade.Core.Utilities.Results.Abstract;
+using ETrade.Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +12,11 @@ namespace ETrade.Business.Abstract
 {
     public interface IProductService
     {
-        List<Product> GetAllProducts();
-        Product GetProduct(int id);
-        void AddProduct(Product product);
-        void DeleteProduct(Product product);
-        void UpdateProduct(Product product);
+        IDataResult<List<Product>> GetAllProducts();
+        IDataResult<Product> GetProduct(int id);
+        IResult AddProduct(Product product);
+        IResult DeleteProduct(Product product);
+        IResult UpdateProduct(Product product);
+        IDataResult<ProductDetailDto> GetProductDetail(int id);
     }
 }

@@ -10,7 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+
+//TODO : Maybe I should use ServiceRegistration !
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Database integrated for application.
 //builder.Services.AddDbContext<AppDbContext>

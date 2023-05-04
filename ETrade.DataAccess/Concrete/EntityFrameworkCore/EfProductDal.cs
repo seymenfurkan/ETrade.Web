@@ -1,5 +1,6 @@
 ﻿using ETrade.Core.DataAccessRepositories.EntityFramework;
 using ETrade.Core.Entities;
+using ETrade.Core.Entities.DTOs;
 using ETrade.DataAccess.Abstract;
 using ETrade.Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,5 @@ namespace ETrade.DataAccess.Concrete.EntityFrameworkCore
 {
     public class EfProductDal : EfEntityRepositoryBase<Product, AppDbContext>, IProductDal
     {
-     
     }
 }

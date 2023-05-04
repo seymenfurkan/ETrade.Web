@@ -18,12 +18,37 @@
 <button type="button" id="btn1" class="btn btn-success" onclick="Go()">Ürün Ekle</button>
 <br />
 <br />
-@if (@TempData["status"] is not null)
+@if (TempData["CreateSuccess"] is not null)
 {
-    <div class="alert alert-success" role="alert">
-       @TempData["status"]
-    </div>
+    <div class="alert alert-success" role="alert"> @TempData["CreateSuccess"] </div>
 }
+
+@if (TempData["CreateError"] is not null)
+{
+    <div class="alert alert-danger" role="alert"> @TempData["CreateError"] </div>
+}
+
+@if (TempData["DeleteSuccess"] is not null)
+{
+    <div class="alert alert-success" role="alert"> @TempData["DeleteSuccess"] </div>
+}
+
+@if (TempData["DeleteError"] is not null)
+{
+    <div class="alert alert-danger" role="alert"> @TempData["DeleteError"] </div>
+}
+
+@if (TempData["UpdateSuccess"] is not null)
+{
+    <div class="alert alert-success" role="alert"> @TempData["UpdateSuccess"] </div>
+}
+
+
+@if(ViewData["ListSuccess"] is not null)
+{
+    <div class="alert alert-success" role="alert"> @ViewData["ListSuccess"] </div>
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -43,8 +68,8 @@
             <td>@item.Name</td>
             <td>@item.Price</td>
             <td>@item.Stock</td>
-            <td><a asp-controller="Product" asp-action="Remove" asp-route-id ="@item.Id">SİL</a></td>
-            <td><a asp-controller="Product" asp-action="Update" asp-route-id ="@item.Id">Güncelle</a></td>
+                <td><a class="btn btn-danger" asp-controller="Product" asp-action="Remove" asp-route-id="@item.Id">SİL</a></td>
+            <td><a class="btn btn-warning" asp-controller="Product" asp-action="Update" asp-route-id ="@item.Id">Güncelle</a></td>
         </tr>
     }
     </tbody>

@@ -1,4 +1,5 @@
 ﻿using ETrade.Core.DataAccessRepositories;
+using ETrade.Core.Entities.DTOs;
 using ETrade.Entities.Concrete;
 using System;
 using System.Collections.Generic;

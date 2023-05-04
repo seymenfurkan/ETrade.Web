@@ -7,29 +7,32 @@
 
 @model CreateProductViewModel
 
+
+
 <h1>Ürün Ekle</h1>
 
     <form asp-controller="Product" asp-action="AddProduct" method="post">
         <div class="row mb-3">
-            <label  class="col-sm-2 col-form-label">Ürün İsim</label>
+            <label  class="col-sm-2 col-form-label">Ürün İsim :</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" name="Name" asp-for="Name">
+                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
         </div>
         <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">Ürün Marka</label>
+            <label class="col-sm-2 col-form-label">Ürün Marka :</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" name="TradeMark" asp-for="TradeMark">
             </div>
         </div>
         <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">Ürün Fiyat</label>
+            <label class="col-sm-2 col-form-label">Ürün Fiyat :</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" name="Price" asp-for="Price">
             </div>
         </div>
         <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">Ürün Stok</label>
+            <label class="col-sm-2 col-form-label">Ürün Stok :</label>
             <div class="col-sm-10">
                 <input type="number" class="form-control" name="Stock" asp-for="Stock">
             </div>

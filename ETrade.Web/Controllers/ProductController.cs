@@ -21,9 +21,16 @@ namespace ETrade.Web.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var products = _service.GetAllProducts();
-            var mappedEntity = _mapper.Map<List<ProductViewModel>>(products);
+            var result = _service.GetAllProducts();
+            if (!result.Success)
+            {
+                TempData["ListError"] = result.Message;
+                return RedirectToAction("Index","Home");
+            }
+            ViewData["ListSuccess"] = result.Message;
+            var mappedEntity = _mapper.Map<List<ProductViewModel>>(result.Data);
             return View(mappedEntity);
+
         }
 
         [HttpGet]
@@ -34,17 +41,37 @@ namespace ETrade.Web.Controllers
         [HttpPost]
         public IActionResult AddProduct(CreateProductViewModel request)
         {
-            var mapToEntity = _mapper.Map<Product>(request);
-            _service.AddProduct(mapToEntity);
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                var mapToEntity = _mapper.Map<Product>(request);
+                var result = _service.AddProduct(mapToEntity);
+                if(!result.Success)
+                {
+                    TempData["CreateError"] = result.Message;
+                    return RedirectToAction("Index");
+                }
+                TempData["CreateSuccess"] = result.Message;
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View("Add" , request);
+            }
+
         }
 
         [HttpGet]
         public IActionResult Remove(DeleteProductViewModel request)
         {
             var deleteToEntity = _service.GetProduct(request.Id);
-            var mapToEntity = _mapper.Map<Product>(deleteToEntity);
-            _service.DeleteProduct(mapToEntity);
+            var mapToEntity = _mapper.Map<Product>(deleteToEntity.Data);
+            var result = _service.DeleteProduct(mapToEntity);
+            if(!result.Success)
+            {
+                TempData["DeleteError"] = result.Message;
+                return RedirectToAction("Index");
+            }
+            TempData["DeleteSuccess"] = result.Message;
             return RedirectToAction("Index");
         }
 
@@ -52,23 +79,38 @@ namespace ETrade.Web.Controllers
         public IActionResult Update(int id)
         {
             var productToUpdate = _service.GetProduct(id);
-            return View(productToUpdate);
+            var mapToEntity = _mapper.Map<UpdateProductViewModel>(productToUpdate.Data);
+            return View(mapToEntity);
         }
 
         [HttpPost]
         public IActionResult UpdateProduct(UpdateProductViewModel request , int id)
         {
             var updateToEntity = _service.GetProduct(id);
-            var updatedEntity = _mapper.Map(request, updateToEntity);
+            var updatedEntity = _mapper.Map(request, updateToEntity.Data);
 
-            updateToEntity.TradeMark = updatedEntity.TradeMark;
-            updateToEntity.Stock = updatedEntity.Stock;
-            updateToEntity.Price = updatedEntity.Price;
-            updateToEntity.Name = updatedEntity.Name;
+            updateToEntity.Data.TradeMark = updatedEntity.TradeMark;
+            updateToEntity.Data.Stock = updatedEntity.Stock;
+            updateToEntity.Data.Price = updatedEntity.Price;
+            updateToEntity.Data.Name = updatedEntity.Name;
 
-            _service.UpdateProduct(updateToEntity);
-
+            var result = _service.UpdateProduct(updateToEntity.Data);
+            if (!result.Success)
+            {
+              
+                ViewData["UpdateError"] = result.Message;
+                return View("Update");
+            }
+            TempData["UpdateSuccess"] = result.Message;
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult GetDetail(int id)    
+        {
+            var item = _service.GetProductDetail(id);
+            var mappedItem = _mapper.Map<GetProductWithDetailByIdViewModel>(item);
+            return View(mappedItem);
         }
 
     }

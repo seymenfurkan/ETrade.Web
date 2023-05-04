@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using ETrade.Core.Entities.Abstract;
 
 namespace ETrade.Web.Models.ProductViewModels
 {
-    public class UpdateProductViewModel
+    public class UpdateProductViewModel : IViewModel
     {
         public int Id { get; set; }
         public string TradeMark { get; set; }

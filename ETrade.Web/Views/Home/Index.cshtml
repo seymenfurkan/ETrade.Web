@@ -9,4 +9,8 @@
     <hr />
     <hr />
     <hr />
+    @if (TempData["ListError"] is not null)
+    {
+        <div class="alert alert-danger" role="alert"> @TempData["ListError"] </div>
+    } 
 </div>
