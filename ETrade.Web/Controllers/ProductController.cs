@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using ETrade.Business.Abstract;
 using ETrade.Core.Entities.DTOs;
-using ETrade.DataAccess.Abstract;
-using ETrade.Entities.Concrete;
 using ETrade.Web.Models.ProductViewModels;
 using Microsoft.AspNetCore.Mvc;
 
