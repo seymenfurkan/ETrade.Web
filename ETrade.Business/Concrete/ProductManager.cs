@@ -26,45 +26,50 @@ namespace ETrade.Business.Concrete
             _mapper = mapper;
         }
 
-        public IResult AddProduct(Product product)
-        {
-            if (DateTime.Now.Hour is 12)
-            {
-                return new ErrorResult("Maintenance time !");
-            }
-            _productDal.Add(product);
-            return new SuccessResult("Ürün başarılı bir şekilde eklendi !");
-        }
-
-        public IResult DeleteProduct(Product product)
+        public IResult AddProduct(CreateProductDto entity)
         {
             if (DateTime.Now.Hour is 09)
             {
                 return new ErrorResult("Maintenance time !");
             }
-            _productDal.Delete(product);
+            var mappedEntity = _mapper.Map<Product>(entity);
+            _productDal.Add(mappedEntity);
+            return new SuccessResult("Ürün başarılı bir şekilde eklendi !");
+        }
+
+        public IResult DeleteProduct(DeleteProductDto entity)
+        {
+            if (DateTime.Now.Hour is 09)
+            {
+                return new ErrorResult("Maintenance time !");
+            }
+            var mappedEntity = _mapper.Map<Product>(entity);
+            _productDal.Delete(mappedEntity);
             return new SuccessResult("Ürün başarılı bir şekilde silindi !");
         }
 
 
-        public IDataResult<List<Product>> GetAllProducts()
+        public IDataResult<List<ProductListDto>> GetAllProducts()
         {
-            if (DateTime.Now.Hour is 10)
+            if (DateTime.Now.Hour is 09)
             {
-                return new ErrorDataResult<List<Product>>("Ürünler bakımdan dolayı listelenemiyor !");
+                return new ErrorDataResult<List<ProductListDto>>("Ürünler bakımdan dolayı listelenemiyor !");
             }
             var products = _productDal.GetAll();
-            return new SuccessDataResult<List<Product>>(products, "Ürünler başarılı bir şekilde listelendi !");
+            var mappedEntities = _mapper.Map<List<ProductListDto>>(products);
+            return new SuccessDataResult<List<ProductListDto>>(mappedEntities, "Ürünler başarılı bir şekilde listelendi !");
         }
 
-        public IDataResult<Product> GetProduct(int id)
+        public IDataResult<GetProductByIdDto> GetProduct(int id)
         {
-            if (DateTime.Now.Hour is 10)
+            if (DateTime.Now.Hour is 09)
             {
-                return new ErrorDataResult<Product>("Bakımdan dolayı ürün sayfasına ulaşılamıyor !");
+                return new ErrorDataResult<GetProductByIdDto>("Bakımdan dolayı ürün sayfasına ulaşılamıyor !");
             }
-            var product = _productDal.Get(p => p.Id == id);
-            return new SuccessDataResult<Product>(product, "Ürün sayfasına başarılı bir şekilde ulaşıldı !");
+            var entity = _productDal.Get(p => p.Id == id);
+            var mappedEntity = _mapper.Map<GetProductByIdDto>(entity);
+
+            return new SuccessDataResult<GetProductByIdDto>(mappedEntity, "Ürün sayfasına başarılı bir şekilde ulaşıldı !");
         }
 
         public IDataResult <ProductDetailDto> GetProductDetail(int id)
@@ -78,13 +83,14 @@ namespace ETrade.Business.Concrete
             return new SuccessDataResult<ProductDetailDto>(mappedItem, "Ürün detay sayfasına başarılı bir şekilde ulaşıldı !");
         }
 
-        public IResult UpdateProduct(Product product)
+        public IResult UpdateProduct(UpdateProductDto entity)
         {
             if (DateTime.Now.Hour is 17)
             {
                 return new ErrorResult("Maintenance time !");
             }
-            _productDal.Update(product);
+            var mappedEntity = _mapper.Map<Product>(entity);
+            _productDal.Update(mappedEntity);
             return new SuccessResult("Ürün başarılı bir şekilde güncellendi !");
         }
     }

@@ -9,14 +9,15 @@ namespace ETrade.Web.Mapping.ForProduct
     {
         public ViewModelMapping()
         {
-            CreateMap<Product, ProductViewModel>().ReverseMap();
+            CreateMap<ProductListDto, ProductListViewModel>().ReverseMap();
+            
+            CreateMap<CreateProductViewModel, CreateProductDto>();
 
+            CreateMap<UpdateProductViewModel, UpdateProductDto>().ReverseMap();
+            CreateMap<UpdateProductViewModel, GetProductByIdDto>().ReverseMap();
 
-            CreateMap<CreateProductViewModel, Product>();
-            CreateMap<UpdateProductViewModel, Product>().ReverseMap(); 
-            CreateMap<DeleteProductViewModel, Product>();
-
-
+            CreateMap<DeleteProductViewModel, DeleteProductDto>();
+         
             CreateMap<ProductDetailDto , GetProductWithDetailByIdViewModel>().ReverseMap();
         }
     }

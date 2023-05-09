@@ -12,11 +12,11 @@ namespace ETrade.Business.Abstract
 {
     public interface IProductService
     {
-        IDataResult<List<Product>> GetAllProducts();
-        IDataResult<Product> GetProduct(int id);
-        IResult AddProduct(Product product);
-        IResult DeleteProduct(Product product);
-        IResult UpdateProduct(Product product);
+        IDataResult<List<ProductListDto>> GetAllProducts();
+        IDataResult<GetProductByIdDto> GetProduct(int id);
+        IResult AddProduct(CreateProductDto entity);
+        IResult DeleteProduct(DeleteProductDto entity);
+        IResult UpdateProduct(UpdateProductDto entity);
         IDataResult<ProductDetailDto> GetProductDetail(int id);
     }
 }

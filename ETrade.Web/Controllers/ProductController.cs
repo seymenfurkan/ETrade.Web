@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ETrade.Business.Abstract;
+using ETrade.Core.Entities.DTOs;
 using ETrade.DataAccess.Abstract;
 using ETrade.Entities.Concrete;
 using ETrade.Web.Models.ProductViewModels;
@@ -28,7 +29,7 @@ namespace ETrade.Web.Controllers
                 return RedirectToAction("Index","Home");
             }
             ViewData["ListSuccess"] = result.Message;
-            var mappedEntity = _mapper.Map<List<ProductViewModel>>(result.Data);
+            var mappedEntity = _mapper.Map<List<ProductListViewModel>>(result.Data);
             return View(mappedEntity);
 
         }
@@ -43,7 +44,7 @@ namespace ETrade.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var mapToEntity = _mapper.Map<Product>(request);
+                var mapToEntity = _mapper.Map<CreateProductDto>(request);
                 var result = _service.AddProduct(mapToEntity);
                 if(!result.Success)
                 {
@@ -63,9 +64,15 @@ namespace ETrade.Web.Controllers
         [HttpGet]
         public IActionResult Remove(DeleteProductViewModel request)
         {
-            var deleteToEntity = _service.GetProduct(request.Id);
-            var mapToEntity = _mapper.Map<Product>(deleteToEntity.Data);
-            var result = _service.DeleteProduct(mapToEntity);
+      
+            var mappedEntity = _mapper.Map<DeleteProductDto>(request);
+            var deleteToEntity = _service.GetProduct(mappedEntity.Id);
+
+            var data = deleteToEntity.Data;
+            var entity = _mapper.Map<DeleteProductDto>(data);
+            
+            var result = _service.DeleteProduct(entity);
+
             if(!result.Success)
             {
                 TempData["DeleteError"] = result.Message;
@@ -79,25 +86,29 @@ namespace ETrade.Web.Controllers
         public IActionResult Update(int id)
         {
             var productToUpdate = _service.GetProduct(id);
-            var mapToEntity = _mapper.Map<UpdateProductViewModel>(productToUpdate.Data);
+            var data = productToUpdate.Data;
+
+            var mapToEntity = _mapper.Map<UpdateProductViewModel>(data);
             return View(mapToEntity);
         }
 
         [HttpPost]
-        public IActionResult UpdateProduct(UpdateProductViewModel request , int id)
+        public IActionResult UpdateProduct(UpdateProductViewModel request)
         {
-            var updateToEntity = _service.GetProduct(id);
-            var updatedEntity = _mapper.Map(request, updateToEntity.Data);
+            var mappedEntity = _mapper.Map<GetProductByIdDto>(request);
+            var updateToEntity = _service.GetProduct(mappedEntity.Id);
 
-            updateToEntity.Data.TradeMark = updatedEntity.TradeMark;
-            updateToEntity.Data.Stock = updatedEntity.Stock;
-            updateToEntity.Data.Price = updatedEntity.Price;
-            updateToEntity.Data.Name = updatedEntity.Name;
+            var updateToData = updateToEntity.Data;
+            var updatedData = mappedEntity;
 
-            var result = _service.UpdateProduct(updateToEntity.Data);
+
+            var updatedEntity = _mapper.Map(updatedData , updateToData);
+            var entity = _mapper.Map<UpdateProductDto>(updatedEntity);
+
+            var result = _service.UpdateProduct(entity);
             if (!result.Success)
             {
-              
+
                 ViewData["UpdateError"] = result.Message;
                 return View("Update");
             }

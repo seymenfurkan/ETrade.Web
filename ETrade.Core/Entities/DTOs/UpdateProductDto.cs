@@ -1,11 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using ETrade.Core.Entities.Abstract;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using ETrade.Core.Entities.Abstract;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ETrade.Web.Models.ProductViewModels
+namespace ETrade.Core.Entities.DTOs
 {
-    public class ProductViewModel : IViewModel
+    public class UpdateProductDto : IDto
     {
         public int Id { get; set; }
         public string TradeMark { get; set; }
