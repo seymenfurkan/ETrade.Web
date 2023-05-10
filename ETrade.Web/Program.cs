@@ -1,8 +1,10 @@
 using ETrade.Business.Abstract;
 using ETrade.Business.Concrete;
+using ETrade.Core.CrossCuttingConcerns.Caching.Redis;
 using ETrade.DataAccess.Abstract;
 using ETrade.DataAccess.Concrete.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +13,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 
+//Configuration for Redis !
+IConfiguration configuration = builder.Configuration;
+var multiplexer = ConnectionMultiplexer.Connect(configuration.GetConnectionString("Redis"));
+builder.Services.AddSingleton<IConnectionMultiplexer>(multiplexer);
 
 //TODO : Maybe I should use ServiceRegistration !
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -22,6 +28,12 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 //        options.UseSqlServer(builder.Configuration.GetConnectionString("SqlDbCon"));
 //    });
 
+//Baðýmlýlýklarýmýzý ekliyoruz 
+
+//For RedisCache
+builder.Services.AddSingleton<ICacheService, RedisCacheManager>();
+
+//For Product
 builder.Services.AddScoped<IProductDal, EfProductDal>();
 builder.Services.AddScoped<IProductService, ProductManager>();
 

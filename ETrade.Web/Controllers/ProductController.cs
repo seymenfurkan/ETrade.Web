@@ -59,7 +59,6 @@ namespace ETrade.Web.Controllers
 
         }
 
-        [HttpGet]
         public IActionResult Remove(DeleteProductViewModel request)
         {
       

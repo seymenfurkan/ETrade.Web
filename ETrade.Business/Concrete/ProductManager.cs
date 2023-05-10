@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ETrade.Business.Abstract;
+using ETrade.Core.CrossCuttingConcerns.Caching.Redis;
 using ETrade.Core.Entities.DTOs;
 using ETrade.Core.Utilities.Results.Abstract;
 using ETrade.Core.Utilities.Results.Concrete;
@@ -19,11 +20,13 @@ namespace ETrade.Business.Concrete
 
         private readonly IProductDal _productDal;
         private readonly IMapper _mapper;
+        public ICacheService CacheService { get; }
 
-        public ProductManager(IProductDal productDal, IMapper mapper)
+        public ProductManager(IProductDal productDal, IMapper mapper, ICacheService cacheService)
         {
             _productDal = productDal;
             _mapper = mapper;
+            CacheService = cacheService;
         }
 
         public IResult AddProduct(CreateProductDto entity)
@@ -56,6 +59,10 @@ namespace ETrade.Business.Concrete
                 return new ErrorDataResult<List<ProductListDto>>("Ürünler bakımdan dolayı listelenemiyor !");
             }
             var products = _productDal.GetAll();
+            if (products.Count > 0)
+            {
+                CacheService.GetOrAdd("productlist", () => { return products; });
+            }
             var mappedEntities = _mapper.Map<List<ProductListDto>>(products);
             return new SuccessDataResult<List<ProductListDto>>(mappedEntities, "Ürünler başarılı bir şekilde listelendi !");
         }
